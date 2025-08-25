@@ -4,7 +4,6 @@ const userLinkSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     link: { type: Schema.Types.ObjectId, ref: "Link", required: true },
     url: { type: String, required: true },
-    name: { type: String },
     slug: { type: String, unique: true },
     hits: { type: Number, default: 0 },
   },

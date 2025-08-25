@@ -5,6 +5,7 @@ import UserModel from "../models/user.ts";
 import LinkModel from "../models/link";
 import UserLinkModel from "../models/user-link";
 import slugify from "slugify";
+import { UpdateUser } from "../schemas/user.ts";
 
 const DICE_BEAR_STYLES = [
   "adventurer",
@@ -117,6 +118,31 @@ export const handleUserOnboarding = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return errorResponse(res, 500, {}, "Internal Server Error");
+  }
+};
+
+export const handleUpdateUser = async (req: Request, res: Response) => {
+  const { _id } = req.user;
+
+  try {
+    const { name, bio, aboutMe, quickIntros } = req.data as UpdateUser;
+
+    const user = await UserModel.findById(_id);
+    if (!user) {
+      return errorResponse(res, 404, {}, "User not found");
+    }
+
+    if (name !== undefined) user.name = name;
+    if (bio !== undefined) user.bio = bio;
+    if (aboutMe !== undefined) user.aboutMe = aboutMe;
+    if (quickIntros !== undefined) user.quickIntros = quickIntros;
+
+    await user.save();
+
+    return successResponse(res, 200, user, "User updated successfully");
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return errorResponse(res, 500, {}, "Internal server error");
   }
 };
 

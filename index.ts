@@ -10,7 +10,6 @@ import initializeRedisClient from "./utils/redis-client.ts";
 import CookieParser from "cookie-parser";
 
 import cors from "cors";
-import { link } from "fs";
 
 const PORT = process.env.PORT;
 const app = express();

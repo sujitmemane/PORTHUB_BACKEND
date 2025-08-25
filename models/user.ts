@@ -8,10 +8,61 @@ const FONT_FAMILIES = [
   "Fira Code, monospace",
 ];
 
-const userSchema = new Schema({
+export interface Banner {
+  bgColor?: string;
+  bgText?: string;
+}
+
+export interface QuickIntro {
+  icon: string;
+  text: string;
+}
+
+export type FontFamily =
+  | "Inter, sans-serif"
+  | "Roboto, sans-serif"
+  | "Poppins, sans-serif"
+  | "Playfair Display, serif"
+  | "Fira Code, monospace";
+
+export interface Theme {
+  fontFamily: FontFamily;
+  primaryColor: string;
+  brandColor: string;
+}
+
+export interface IUser {
+  _id?: string;
+  name: string;
+  username?: string;
+  bio?: string;
+  dob?: Date;
+  email: string;
+  googleId?: string;
+  password: string;
+  isOnboardingCompleted?: boolean;
+  avatar?: string;
+  banner?: Banner;
+  quickIntros?: QuickIntro[];
+  aboutMe?: string;
+  theme?: Theme;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const userSchema = new Schema<IUser>({
   name: {
     type: String,
     required: true,
+  },
+  username: {
+    type: String,
+
+    unique: true,
+  },
+
+  bio: {
+    type: String,
   },
   dob: {
     type: Date,
@@ -41,6 +92,16 @@ const userSchema = new Schema({
     bgColor: String,
 
     bgText: String,
+  },
+  quickIntros: [
+    {
+      icon: String,
+      text: String,
+    },
+  ],
+
+  aboutMe: {
+    type: String,
   },
   theme: {
     fontFamily: {
