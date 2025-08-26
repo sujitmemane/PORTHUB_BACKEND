@@ -6,6 +6,9 @@ const userLinkSchema = new Schema(
     url: { type: String, required: true },
     slug: { type: String, unique: true },
     hits: { type: Number, default: 0 },
+    order: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
